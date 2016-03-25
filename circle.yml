@@ -11,7 +11,8 @@ dependencies:
     #- docker build  -f 10-role/test/Dockerfile    -t wordpress10   10-role
     #- docker build  -f 11-galaxy/test/Dockerfile        -t wordpress11   11-galaxy
     #- docker build  -f 12-multi-galaxy/test/Dockerfile  -t wordpress12   12-multi-galaxy
-    - docker build  -f 12-multi-galaxy/test/Dockerfile.centos  -t wordpress12-centos  12-multi-galaxy
+    #- docker build  -f 12-multi-galaxy/test/Dockerfile.centos  -t wordpress12-centos  12-multi-galaxy
+    - docker build  -f 12-multi-galaxy/test/Dockerfile.centos6  -t wordpress12-centos6  12-multi-galaxy
     #- docker build  -f 20-cluster/test/Dockerfile -t wordpress20   20-cluster
 
 
@@ -37,10 +38,15 @@ test:
     #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress12) ; echo http://$IP:80/ > url
     #- cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress12
 
-    - docker run -d --name wordpress12-centos   wordpress12-centos
+    #- docker run -d --name wordpress12-centos   wordpress12-centos
+    #- sleep 60
+    #- IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress12-centos) ; echo http://$IP:80/ > url
+    #- cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress12-centos
+
+    - docker run -d --name wordpress12-centos6   wordpress12-centos6
     - sleep 60
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress12-centos) ; echo http://$IP:80/ > url
-    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress12-centos
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' wordpress12-centos6) ; echo http://$IP:80/ > url
+    - cat url  |  xargs -t -n 1 curl -v --retry 5 --retry-max-time 120 -o result-wordpress12-centos6
 
     #- docker run -d --name db20  db20
     #- sleep 60
@@ -55,6 +61,7 @@ test:
     #- grep '<title>ANSIBLE_TEST' result-wordpress10
     #- grep '<title>ANSIBLE_TEST' result-wordpress11
     #- grep '<title>ANSIBLE_TEST' result-wordpress12
-    - grep '<title>ANSIBLE_TEST' result-wordpress12-centos
+    #- grep '<title>ANSIBLE_TEST' result-wordpress12-centos
+    - grep '<title>ANSIBLE_TEST' result-wordpress12-centos6
     #- grep '<title>ANSIBLE_TEST' result-wordpress20
 
