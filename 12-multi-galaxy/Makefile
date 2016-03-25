@@ -16,8 +16,8 @@ status:
 
 clean:
 	vagrant destroy $(primary_node)
-	-rm result-wordpress url
 	docker rm -f `docker ps -a | grep Exited | awk '{ print $$1 }'`
+	-rm result-wordpress url setup.retry
 
 push:
 	git push origin feature/4th-hw-centos
